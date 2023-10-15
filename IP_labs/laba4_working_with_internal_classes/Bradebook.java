@@ -1,6 +1,14 @@
 import java.util.ArrayList;
 
-public class Bradebook {
+public class Bradebook implements Comparable<Bradebook> {
+
+    @Override
+    public int compareTo(Bradebook o)
+    {
+        return Number_Bradebook.compareTo(o.Number_Bradebook);
+        //return Number_Bradebook > o.Number_Bradebook ? 1 : Number_Bradebook == o.Number_Bradebook ? 0 : -1;
+    }
+    private Integer Number_Bradebook;
     private String Student_name;
     private String Student_last_name;
     private String Student_patronymic;
@@ -9,22 +17,54 @@ public class Bradebook {
 
     public Bradebook() {}
 
-    public Bradebook(String student_name, String student_last_name,
-                     String student_patronymic, ArrayList<Session> sessions) {
+    public Bradebook(Integer number_Bradebook, String student_name, String student_last_name,
+                     String student_patronymic, ArrayList<Session> sessions)
+    {
+        Number_Bradebook = number_Bradebook;
         Student_name = student_name;
         Student_last_name = student_last_name;
         Student_patronymic = student_patronymic;
         this.sessions = sessions;
     }
 
+    boolean Student_with_a_scholarship(int number_session, int count_exams)
+    {
+        boolean flag = true;
+        for(int i = 0; i < count_exams; ++i)
+        {
+            if (this.getSessions().get(number_session).getExams().get(0).getGrade() < 5)
+                flag = false;
+        }
+        return flag;
+    }
+
+    String getFIO()
+    {
+        return Student_name + " " + Student_last_name + " " + Student_patronymic + "\n";
+    }
+
+    Boolean Is_excellent_student()
+    {
+
+        return true;
+    }
     @Override
     public String toString() {
-        return "Bradebook{" +
-                "Student_name=' " + Student_name + '\'' +
-                ", Student_last_name=' " + Student_last_name + '\'' +
-                ", Student_patronymic=' " + Student_patronymic + '\'' +
-                ", sessions= " + sessions +
-                '}';
+        return "\nBradebook\n{ " +
+               "Number_Bradebook = '" + Number_Bradebook + '\'' +
+               ", Student_name = '" + Student_name + '\'' +
+               ", Student_last_name = '" + Student_last_name + '\'' +
+               ", Student_patronymic = '" + Student_patronymic + '\'' +
+               ", sessions = " + sessions +
+               " }";
+    }
+
+    public Integer getNumber_Bradebook() {
+        return Number_Bradebook;
+    }
+
+    public void setNumber_Bradebook(Integer number_Bradebook) {
+        Number_Bradebook = number_Bradebook;
     }
 
     public String getStudent_name() {
@@ -59,6 +99,7 @@ public class Bradebook {
         this.sessions = sessions;
     }
 
+
     public static class Session { // одна сессия в частности
         private int session_number; // номер сессии 1-7
         private int number_of_exams; // кол-во экзаменов
@@ -78,12 +119,12 @@ public class Bradebook {
 
         @Override
         public String toString() {
-            return "Session{" +
-                    "session_number=" + session_number +
-                    ", number_of_exams=" + number_of_exams +
-                    ", exams=" + exams +
-                    ", tests=" + tests +
-                    '}';
+            return "\nSession\n{ " +
+                   "session_number = " + session_number +
+                   ", number_of_exams = " + number_of_exams +
+                   ", exams = " + exams +
+                   ", tests = " + tests +
+                   " }";
         }
 
         public int getSession_number() {
@@ -133,10 +174,10 @@ public class Bradebook {
 
             @Override
             public String toString() {
-                return "Exam{" +
-                        "name_exam='" + name_exam + '\'' +
-                        ", name_of_professor='" + name_of_professor + '\'' +
-                        '}';
+                return "\nExam\n{ " +
+                       "name_exam = '" + name_exam + '\'' +
+                       ", name_of_professor = '" + name_of_professor + '\'' +
+                       " }";
             }
 
             public String getName_exam() {
@@ -151,6 +192,14 @@ public class Bradebook {
                 return name_of_professor;
             }
 
+            public Integer getGrade() {
+                return grade;
+            }
+
+            public void setGrade(Integer grade) {
+                this.grade = grade;
+            }
+
             public void setName_of_professor(String name_of_professor) {
                 this.name_of_professor = name_of_professor;
             }
@@ -160,5 +209,4 @@ public class Bradebook {
 
         }
     }
-
 }
